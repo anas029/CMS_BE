@@ -1,110 +1,81 @@
-// Require User Model
-const User = require("../models/User");
+const User = require('../models/User');
+const admin = require('firebase-admin');
 
-// Require jsonwebtoken
-const jwt = require("jsonwebtoken");
 
-// Require bcrypt
-const bcrypt = require("bcrypt");
-const salt = 10;
+// HTTP Sign up Get
+exports.auth_signup_get = async (req, res) => {
+    res.render('auth/signup');
+}
 
-// Require Passport Configurations
-let passport = require("../configs/ppConfig");
+// HTTP Sign up Post
+exports.auth_signup_post = async (req, res) => {
+    const idToken = req.body.idToken;
+    admin.auth().verifyIdToken(idToken)
+        .then((decodedToken) => {
+            const firebaseID = decodedToken.uid;
+            const user = new User({
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                type: 'customer',
+                firebaseID: firebaseID,
+                avatarUrl: req.body.avatarURL
+            });
+            user.save().then(() => {
+                createSessionCookie(res, req);
+            }).catch(err => {
+                console.log('Error: ', err);
+                res.status(401).json({"message": `Error creating user => ${firebaseID}`})
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
 
-// API's for registration and Authentication
+// HTTP Sign in Get
+exports.auth_signin_get = async (req, res) => {
+    res.render('auth/signin');
+}
 
-// HTTP GET - Signup Route -To load the signup form
-exports.auth_signup_get = (req, res) => {
-  res.render("auth/signup");
-};
-
-// HTTP POST - Signup Route - To post the data
-exports.auth_signup_post = (req, res) => {
-  let user = new User(req.body);
-
-  let hash = bcrypt.hashSync(req.body.password, salt);
-  console.log(hash);
-
-  user.password = hash;
-
-  // Save user
-  user
-    .save()
-    .then(() => {
-      // res.redirect("/auth/signin");
-      res.json({ message: "User Created Successfully" });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send("Please try again later.");
-    });
-};
-
-// HTTP GET - Signin Route - To load the signin form
-exports.auth_signin_get = (req, res) => {
-  res.render("auth/signin");
-};
-
-// HTTP POST - Signin Route - To post the data
-// exports.auth_signin_post = passport.authenticate('local', {
-//     successRedirect: "/",
-//     failureRedirect: "/auth/signin",
-// });
-
-// JWT Authentication
+// HTTP Sign in Post
 exports.auth_signin_post = async (req, res) => {
-  let { emailAddress, password } = req.body;
+    const idToken = req.body.idToken;
+    admin.auth().verifyIdToken(idToken)
+        .then((decodedToken) => {
+            // const firebaseID = decodedToken.uid;
+            createSessionCookie(res, req);
+        })
+        .catch((error) => {
+            console.log('Error: ', error);
+            res.status(401).json({"message": `Error signing in user`})
+        });
+}
 
-  console.log(emailAddress);
+async function createSessionCookie(res, req) {
+    const idToken = req.body.idToken;
+    const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
+    await
+        admin
+            .auth()
+            .createSessionCookie(idToken, { expiresIn })
+            .then(sessionCookie => {
+                const options = { maxAge: expiresIn, httpOnly: true };
+                res.cookie('session', sessionCookie, options);
+                res.status(200).json({"message": `User logged in successfully.`})
+            })
+            .catch(error => {
+                console.log(error);
+                res.json({ success: false });
+            });
+}
 
-  try {
-    let user = await User.findOne({ emailAddress });
-    console.log(user);
+// HTTP Sign out Get
+exports.auth_signout_get = (req, res) => {
+    res.clearCookie('session');
+    res.status(200).json({"message": `User signed out.`})
+}
 
-    if (!user) {
-      return res.json({ message: "User Not Found" });
-    }
-
-    // Compare Password
-    const isMatch = await bcrypt.compareSync(password, user.password);
-    console.log(password);
-    console.log(user.password);
-
-    if (!isMatch) {
-      return res.json({ message: "Password doesnot matched" });
-    }
-
-    // Generate JWT
-
-    const payload = {
-      user: {
-        id: user._id,
-        name: user.firstName
-      },
-    };
-
-    jwt.sign(
-      payload,
-      process.env.SECRET,
-      { expiresIn: 36000000 },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token }).status(200);
-      }
-    );
-  } catch (error) {
-    console.log(error);
-    res.json({ message: "Your are not loggedIn !!!" }).status(400);
-  }
-};
-
-// HTTP GET - Logout Route - To logout the user
-exports.auth_logout_get = (req, res) => {
-  // Invalidate the session
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/auth/signin");
-  });
-};
+// HTTP Password Reset Get
+exports.auth_forgot_password_get = async (req, res) => {
+    res.render('auth/forgot_password');
+}

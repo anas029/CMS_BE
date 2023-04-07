@@ -1,46 +1,19 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require ('mongoose');
 
-// User Schema
 const userSchema = mongoose.Schema({
-    firstName: {
-        type: String,
-        required: true,
-        minlength: [3, "First name must be more than 3 characters"],
-        maxlength: [99, "This is too much man..... Chill!!!"]
-    },
-    lastName: {
-        type: String,
-        required: true,
-        minlength: [3, "Last name must be more than 3 characters"],
-        maxlength: [99, "This is too much man..... Chill!!!"]
-    },
-    emailAddress: {
-        type: String,
-        required: true,
-        lowercase:true,
-        unique: true
-    },
-    password:{
-        type: String,
-        required: true,
-        minlength: [6, "khalaas... your password is too weak"]
-    }
-
+    //personal:
+    firstName: {type:String, required: true},
+    lastName: {type:String, required: true},
+    avatarURL: String,
+    //user type:
+    type: {type:String, required: true},
+    //firebase id:
+    firebaseID: {type:String, required: true},
 },
 {
     timestamps: true
-})
+});
 
-// verifyPassword
-userSchema.methods.verifyPassword = function(password){
-    console.log(password);
-    console.log(this.password);
-    return bcrypt.compareSync(password, this.password);
-}
+const User = mongoose.model('User', userSchema);
 
-// User Model
-const User = mongoose.model("User", userSchema);
-
-// Exports
 module.exports = User;
