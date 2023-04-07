@@ -1,6 +1,6 @@
 const Page = require('../models/Page');
 
-const page_create_post = (req, res) => {
+exports.page_create_post = (req, res) => {
     console.log(req.body);
     let page = new Page(req.body);
     page.save()
@@ -10,7 +10,7 @@ const page_create_post = (req, res) => {
             res.send("Please try again later");
         });
 }
-const page_show_get = (req, res) => {
+exports.page_show_get = (req, res) => {
     console.log(req.query.id);
     Page.findById(req.query.id)
         .then(result => { res.status(200).json(result) })
@@ -19,4 +19,31 @@ const page_show_get = (req, res) => {
             res.status(400).json("Please try again later");
         });
 }
-module.exports = { page_create_post, page_show_get }
+exports.page_index_get = (req, res) => {
+    Page.find()
+        .then(result => { res.status(200).json(result) })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json("Please try again later");
+        });
+}
+exports.page_header_get = (req, res) => {
+    console.log(req.query.id);
+    const websiteId = req.query.id
+    Page.findOne({ website: websiteId, type: 'header' })
+        .then(result => { res.status(200).json(result) })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json("Please try again later");
+        });
+}
+exports.page_footer_get = (req, res) => {
+    console.log(req.query.id);
+    const websiteId = req.query.id
+    Page.findOne({ website: websiteId, type: 'footer' })
+        .then(result => { res.status(200).json(result) })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json("Please try again later");
+        });
+}
