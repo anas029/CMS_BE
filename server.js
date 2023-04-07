@@ -29,21 +29,19 @@ app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
     next();
 })
-
+app.use(express.json());
 // Import Routes
 const authRoute = require('./routes/auth');
+const pageRoute = require('./routes/page')
+const websiteRoute = require('./routes/website')
 
 // Mount Routes
 app.use('/auth', authRoute);
+app.use('/page', pageRoute);
+app.use('/website', websiteRoute);
 
-// Node.js to look in a folder views for all the ejs files.
-app.set("view engine", "ejs");
 
 // Listen to specific port for incomming requests
 app.listen(port, () => {
     console.log(`Blog App is running on ${port}`);
-})
-
-app.get("/a", (req, res) => {
-    res.render("home/another");
 })

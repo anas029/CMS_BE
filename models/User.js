@@ -18,27 +18,33 @@ const userSchema = mongoose.Schema({
     emailAddress: {
         type: String,
         required: true,
-        lowercase:true,
+        lowercase: true,
         unique: true
     },
-    password:{
+    password: {
         type: String,
         required: true,
-        minlength: [6, "khalaas... your password is too weak"]
+        minlength: [8, "khalaas... your password is too weak"]
     }
 
 },
-{
-    timestamps: true
-})
+    {
+        timestamps: true
+    })
 
+userSchema.virtual('website', {
+    ref: 'Website',
+    localField: '_id',
+    foreignField: 'owner'
+})
 // verifyPassword
-userSchema.methods.verifyPassword = function(password){
+userSchema.methods.verifyPassword = function (password) {
     console.log(password);
     console.log(this.password);
     return bcrypt.compareSync(password, this.password);
 }
-
+userSchema.set('toObject', { virtuals: true })
+userSchema.set('toJSON', { virtuals: true })
 // User Model
 const User = mongoose.model("User", userSchema);
 

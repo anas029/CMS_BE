@@ -30,15 +30,32 @@ exports.auth_signup_post = (req, res) => {
   // Save user
   user
     .save()
-    .then(() => {
-      // res.redirect("/auth/signin");
-      res.json({ message: "User Created Successfully" });
+    .then((result) => {
+      console.log(result)
+      res.status(200).json({ message: "User Created Successfully" });
     })
     .catch((err) => {
       console.log(err);
       res.send("Please try again later.");
     });
 };
+
+exports.auth_user_get = (req, res) => {
+  let id = req.query.id
+  User.findById(id).populate('website')
+    .then(result => {
+      console.log(result);
+      res.status(200).json(result)
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({
+        "status": "error", "message": "Bad Request, Please try again later", "data": null
+      })
+    })
+
+}
+
 
 // HTTP GET - Signin Route - To load the signin form
 exports.auth_signin_get = (req, res) => {
