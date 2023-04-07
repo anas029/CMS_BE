@@ -14,6 +14,16 @@ const userSchema = mongoose.Schema({
     timestamps: true
 });
 
-const User = mongoose.model('User', userSchema);
+userSchema.virtual('website', {
+    ref: 'Website',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
+userSchema.set('toObject', { virtuals: true })
+userSchema.set('toJSON', { virtuals: true })
+
+// User Model
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

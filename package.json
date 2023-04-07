@@ -6,6 +6,7 @@
   "scripts": {
     "test": "nodemon server",
     "prestart" : "node generate-google-api-credentials.js "
+    "start": "nodemon server"
   },
   "keywords": [],
   "author": "Mohamed Alalwan",

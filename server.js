@@ -24,11 +24,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Look for all ejs files
 app.set('view engine', 'ejs');
 
+
 // Import Routes
 const authRoute = require('./routes/auth');
+const pageRoute = require('./routes/page')
+const websiteRoute = require('./routes/website')
 
 // Mount Routes
 app.use('/auth', authRoute);
+app.use('/page', pageRoute);
+app.use('/website', websiteRoute);
 
 //set up user auth middleware
 const auth = require('./middleware/auth');
@@ -38,7 +43,7 @@ app.all('*', function (req, res) {
     res.sendStatus(404);
 });
 
-//listen to port
+// Listen to specific port for incomming requests
 app.listen(port, () => {
-    console.log(`Hi, the server should be connected on port ${port}`);
-});
+    console.log(`Blog App is running on ${port}`);
+})
