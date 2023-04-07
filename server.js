@@ -3,33 +3,28 @@ const express = require('express');
 require('dotenv').config()
 require('./configs/db');
 
+//initialize firebase admin
+require('./configs/firebase');
+
 // PORT Configuration
 const port = process.env.PORT;
 
 // Initailze Express
 const app = express();
 
-// Express Session and Passport
-let session = require('express-session');
-let passport = require('./configs/ppConfig');
+//initialize cookie parser
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
-// Session
-app.use(session({
-    secret: process.env.SECRET,
-    saveUninitialized: true,
-    resave: false,
-    cookie: { maxAge: 36000000 }
-}));
+//initializing body-parser
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(passport.initialize());
-app.use(passport.session());
+//Look for all ejs files
+app.set('view engine', 'ejs');
 
-// Sharing the information with all web pages.
-app.use(function (req, res, next) {
-    res.locals.currentUser = req.user;
-    next();
-})
-app.use(express.json());
+
 // Import Routes
 const authRoute = require('./routes/auth');
 const pageRoute = require('./routes/page')
@@ -40,6 +35,13 @@ app.use('/auth', authRoute);
 app.use('/page', pageRoute);
 app.use('/website', websiteRoute);
 
+//set up user auth middleware
+const auth = require('./middleware/auth');
+app.use(auth.setUser);
+
+app.all('*', function (req, res) {
+    res.sendStatus(404);
+});
 
 // Listen to specific port for incomming requests
 app.listen(port, () => {
