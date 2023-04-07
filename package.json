@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "nodemon server",
-    "prestart" : "node generate-google-api-credentials.js "
+    "prestart" : "node generate-google-api-credentials.js ",
     "start": "nodemon server"
   },
   "keywords": [],
