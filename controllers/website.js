@@ -47,6 +47,19 @@ exports.website_showByDomain_get = (req, res) => {
             });
         });
 }
+exports.website_showByUser_get = (req, res) => {
+    console.log(req.query.user);
+    const owner = req.query.user
+    Website.find({ owner })
+        .then(result => { res.status(200).json(result) })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json({
+                "status": "error", "message": "Bad Request, Please try again later", "data": null
+            });
+        });
+}
+
 exports.website_index_get = (req, res) => {
     Website.find()
         .then(result => { res.status(200).json(result) })
