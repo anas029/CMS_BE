@@ -37,6 +37,18 @@ exports.page_header_get = (req, res) => {
             res.status(400).json("Please try again later");
         });
 }
+exports.page_main_get = (req, res) => {
+    console.log(req.query.id);
+    const websiteId = req.query.id
+    const path = req.query.path
+    console.log(path);
+    Page.findOne({ website: websiteId, path, type: 'main' })
+        .then(result => { res.status(200).json(result) })
+        .catch((err) => {
+            console.log(err.message);
+            res.status(400).json("Please try again later");
+        });
+}
 exports.page_footer_get = (req, res) => {
     console.log(req.query.id);
     const websiteId = req.query.id
