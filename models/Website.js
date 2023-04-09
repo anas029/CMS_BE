@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const websiteSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
-    domain: { type: String, required: true, unique: true, lowercase: true },
+    domain: {
+        type: String, required: true, unique: true, lowercase: true, minlength: 6, match: /^[a-zA-Z]{6,}$/
+    },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
