@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const admin = require('firebase-admin');
 
-async function createSessionCookie(res, req, decodedToken) {
+async function createSessionCookie(res, req) {
     const idToken = req.body.idToken;
     const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
     await admin.auth().createSessionCookie(idToken, { expiresIn })
