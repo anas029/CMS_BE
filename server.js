@@ -27,8 +27,8 @@ app.set('view engine', 'ejs');
 
 // Import Routes
 const authRoute = require('./routes/auth');
-const pageRoute = require('./routes/page')
-const websiteRoute = require('./routes/website')
+const pageRoute = require('./routes/page');
+const websiteRoute = require('./routes/website');
 
 // Mount Routes
 app.use('/auth', authRoute);
@@ -45,5 +45,5 @@ app.all('*', function (req, res) {
 
 // Listen to specific port for incomming requests
 app.listen(port, () => {
-    console.log(`Blog App is running on ${port}`);
+    console.log(`CMS is running on ${port}`);
 })
