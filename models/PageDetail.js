@@ -4,7 +4,8 @@ const PageDetailSchema = new mongoose.Schema({
   page: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Page',
-    required: true
+    required: true,
+    unique: true,
   }
 }, { strict: 'throw' });
 
