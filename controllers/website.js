@@ -24,6 +24,26 @@ exports.website_create_post = (req, res) => {
         })
 
 }
+exports.website_delete = (req, res) => {
+    Website.findByIdAndDelete(req.query.id)
+        .then(result => { res.status(200).json(result) })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json({
+                "status": "error", "message": "Bad Request, Please try again later", "data": null
+            })
+        })
+}
+exports.website_edit_put = (req, res) => {
+    Website.findByIdAndUpdate(req.body._id, req.body, { new: true })
+        .then(result => { res.status(200).json(result) })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json({
+                "status": "error", "message": "Bad Request, Please try again later", "data": null
+            })
+        })
+}
 exports.website_show_get = (req, res) => {
     console.log(req.query.id);
     Website.findById(req.query.id)

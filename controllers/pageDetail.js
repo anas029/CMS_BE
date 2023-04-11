@@ -83,3 +83,25 @@ exports.pageDetail_show_get = (req, res) => {
             res.status(400).json("Please try again later");
         });
 }
+exports.pageDetail_update_put = (req, res) => {
+    PageDetail.findByIdAndUpdate(req.body._id, req.body, { new: true })
+        .then(result => {
+            console.log(result)
+            res.status(200).json(result)
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json("Please try again later");
+        });
+}
+exports.pageDetail_delete = (req, res) => {
+    PageDetail..findByIdAndDelete(req.query.id)
+        .then(result => {
+            console.log(result)
+            res.status(200).json(result)
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json("Please try again later");
+        });
+}
