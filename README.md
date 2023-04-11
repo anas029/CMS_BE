@@ -41,4 +41,4 @@ contact through mebrahim6077@gmail.com or contact mohamedalalwan98@gmail.com or 
 <br>
 ERD:
 <br>
-<img src="/CMS_BE/ERD.JPG">
+<img src="ERD.JPG">
