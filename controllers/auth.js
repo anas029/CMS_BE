@@ -1,3 +1,4 @@
+const { REFUSED } = require('dns');
 const User = require('../models/User');
 const admin = require('firebase-admin');
 
@@ -124,4 +125,15 @@ exports.auth_user_post = async (req, res) => {
         .catch((error) => {
             console.log(error);
         });
+}
+
+exports.auth_user_update = async (req, res) => {
+    const id = req.body.id;
+    User.findByIdAndUpdate(id, req.body, {new: true})
+    .then((user) => {
+        res.status(200).json({user});
+    })
+    .catch((err) => {
+        res.status(500).json({err});
+    })
 }
