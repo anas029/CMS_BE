@@ -14,5 +14,7 @@ router.get('/signout', authCntrl.auth_signout_get);
 
 router.post("/user", authCntrl.auth_user_post);
 
+router.put("/user/update", authCntrl.auth_user_update)
+
 // Exports
 module.exports = router;
