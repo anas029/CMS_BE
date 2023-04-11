@@ -1,13 +1,16 @@
 const mongoose = require('mongoose');
 
 const PageDetailSchema = new mongoose.Schema({
-  page: {
+  website: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Page',
+    ref: 'Website',
     required: true,
-    unique: true,
+  },
+  path: {
+    type: String,
+    required: true,
   }
-}, { strict: 'throw' });
+}, { strict: false });
 
 module.exports = mongoose.model('PageDetail', PageDetailSchema);
 
