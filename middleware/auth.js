@@ -8,7 +8,6 @@ exports.setUser = (req, res, next) => {
             const firebaseID = decodedToken.uid;
             User.findOne({ firebaseID: firebaseID })
                 .then((user) => {
-                    res.locals.user = user;
                     console.log('User online =>', firebaseID);
                     next();
                 })
@@ -22,14 +21,13 @@ exports.setUser = (req, res, next) => {
         })
 };
 
-exports.authenticate = (req, res, next) => {
+exports.isAuth = (req, res, next) => {
     const sessionCookie = req.cookies.session || "";
     admin.auth().verifySessionCookie(sessionCookie, true)
         .then((decodedToken) => {
             const firebaseID = decodedToken.uid;
             User.findOne({ firebaseID: firebaseID })
                 .then((user) => {
-                    res.locals.user = user;
                     console.log('User is authorized =>', firebaseID);
                     next();
                 })
@@ -41,3 +39,23 @@ exports.authenticate = (req, res, next) => {
         })
 };
 
+exports.isAdmin = (req, res, next) => {
+    const sessionCookie = req.cookies.session || "";
+    admin.auth().verifySessionCookie(sessionCookie, true)
+        .then((decodedToken) => {
+            const firebaseID = decodedToken.uid;
+            User.findOne({ firebaseID: firebaseID })
+                .then((user) => {
+                    if(user.type !== 'admin'){
+                        throw new Error('User is not an admin');
+                    }
+                    console.log('User is admin =>', firebaseID);
+                    next();
+                })
+                .catch((err) => {
+                    return res.status(401).json({"message": `Error retrieving user => ${firebaseID}`, err})
+                })
+        }).catch((error) => {
+            return res.status(401).json({"message": `Not Admin Authorized to access this... ):`})
+        })
+};
