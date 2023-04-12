@@ -28,12 +28,16 @@ app.set('view engine', 'ejs');
 // Import Routes
 const authRoute = require('./routes/auth');
 const pageRoute = require('./routes/page');
+const pageDetailRoute = require('./routes/pageDetail');
 const websiteRoute = require('./routes/website');
+const webPageRoute = require('./routes/webPage')
 
 // Mount Routes
 app.use('/auth', authRoute);
 app.use('/page', pageRoute);
+app.use('/pagedetail', pageDetailRoute);
 app.use('/website', websiteRoute);
+app.use('/webpage', webPageRoute);
 
 //set up user auth middleware
 const auth = require('./middleware/auth');

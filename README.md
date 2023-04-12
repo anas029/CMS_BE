@@ -39,6 +39,6 @@ Contributing
 If you'd like to contribute to the CMS website, feel free to fork this repository and submit a pull request with your changes. Make sure to follow the contributing guidelines and code of conduct.
 contact through mebrahim6077@gmail.com or contact mohamedalalwan98@gmail.com or contact 
 <br>
-ERD:
-<br>
+<h2>ERD:</h2>
+<br><br>
 <img src="ERD.JPG">
