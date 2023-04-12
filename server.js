@@ -30,14 +30,14 @@ const authRoute = require('./routes/auth');
 const pageRoute = require('./routes/page');
 const pageDetailRoute = require('./routes/pageDetail');
 const websiteRoute = require('./routes/website');
-const webPageRoute = require('./routes/webPage')
+const userRoute = require('./routes/user');
 
 // Mount Routes
 app.use('/auth', authRoute);
 app.use('/page', pageRoute);
 app.use('/pagedetail', pageDetailRoute);
 app.use('/website', websiteRoute);
-app.use('/webpage', webPageRoute);
+app.use('/user', userRoute);
 
 //set up user auth middleware
 const auth = require('./middleware/auth');
