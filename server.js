@@ -49,5 +49,5 @@ app.all('*', function (req, res) {
 
 // Listen to specific port for incomming requests
 app.listen(port, () => {
-    console.log(`Blog App is running on ${port}`);
+    console.log(`CMS is running on ${port}`);
 })
