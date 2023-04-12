@@ -95,7 +95,7 @@ exports.pageDetail_update_put = (req, res) => {
         });
 }
 exports.pageDetail_delete = (req, res) => {
-    PageDetail..findByIdAndDelete(req.query.id)
+    PageDetail.findByIdAndDelete(req.query.id)
         .then(result => {
             console.log(result)
             res.status(200).json(result)
