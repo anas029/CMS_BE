@@ -13,6 +13,6 @@ router.post('/delete', auth.isAuth, websiteCtrl.website_delete)
 router.post('', auth.isAuth, websiteCtrl.website_create_post)
 router.get('/all', auth.isAdmin, websiteCtrl.website_index_get)
 router.get('/domain', auth.isAuth, websiteCtrl.website_showByDomain_get)
-router.get('/user', auth.isAuth, websiteCtrl.website_showByUser_get)
+router.post('/user', auth.isAuth, websiteCtrl.website_showByUser_get)
 
 module.exports = router
