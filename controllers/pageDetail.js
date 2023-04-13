@@ -14,7 +14,7 @@ exports.pageDetail_create_post = async (req, res) => {
         }
         res.status(200).json(result)
     } catch (error) {
-        console.log(err.message);
+        console.log(error.message);
         res.status(400).json({
             "status": "error", "message": "Bad Request, Please try again later", "data": null
         })
@@ -49,9 +49,11 @@ exports.pageDetail_update_put = (req, res) => {
         });
 }
 exports.pageDetail_delete = (req, res) => {
-    PageDetail.findByIdAndDelete(req.query.id)
+    let path = req.query.path
+    let website = req.query.website
+    PageDetail.findOneAndDelete({ website, path })
         .then(result => {
-            console.log(result)
+            console.log('Query result:', result)
             res.status(200).json(result)
         })
         .catch((err) => {
