@@ -1,4 +1,5 @@
 // Dependencies
+const path = require('path')
 const express = require('express');
 require('dotenv').config()
 require('./configs/db');
@@ -38,14 +39,22 @@ app.use('/page', pageRoute);
 app.use('/pagedetail', pageDetailRoute);
 app.use('/website', websiteRoute);
 app.use('/user', userRoute);
+const buildPath = path.join(__dirname, 'build')
+app.use(express.static(buildPath))
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 //set up user auth middleware
 const auth = require('./middleware/auth');
 app.use(auth.setUser);
 
+
+app.use(express.json())
 app.all('*', function (req, res) {
     res.sendStatus(404);
 });
+
 
 // Listen to specific port for incomming requests
 app.listen(port, () => {
