@@ -3,7 +3,7 @@ This is a Content Management System (CMS) website that allows users to see ready
 
 <br>
 
-<a href="https://content-hive.onrender.com/">Deployed Link</a>
+<a href="https://cms-app-api.onrender.com">Deployed Link</a>
 
 <br>
 
