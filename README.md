@@ -12,10 +12,10 @@ To get started with the CMS website, follow these steps:
 <br>
 <ul>
     <li>Clone this Backend repository to your local machine using
-        <code>git clone <a href="https://github.com/mohamed-alalwan/CMS_BE.git">https://github.com/mohamed-alalwan/CMS_BE.git</a></code> 
+        <code>git clone <a href="https://github.com/anas029/CMS_BE.git">https://github.com/anas029/CMS_BE.git</a></code> 
     </li>
     <li>Clone the Front repository to your local machine using
-        <code>git clone <a href="https://github.com/mohamed-alalwan/CMS_FE.git">https://github.com/mohamed-alalwan/CMS_FE.git</a></code> 
+        <code>git clone <a href="https://github.com/anas029/CMS_FE.git">https://github.com/anas029/CMS_FE.git</a></code> 
     </li>
     <li>Install the necessary dependencies by running npm install in both the client and server directories.</li>
     <li>Create a .env file in the server directory with your MongoDB database connection string and other environment variables (e.g. PORT for the server, and firebase service account details).</li>
